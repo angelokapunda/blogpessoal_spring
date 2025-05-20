@@ -1,7 +1,11 @@
 package com.generation.blogpessoal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,8 +29,10 @@ public class Tema {
     @Pattern(regexp = "^[^0-9].*", message = "A Descrição é obrigatória")
     private String descricao;
 
-//    @OneToMany
-//    private List<Postagem> postagens;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonIgnoreProperties("tema")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tema", cascade = CascadeType.REMOVE)
+    private List<Postagem> postagens;
 
     public String getDescricao() {
         return descricao;
@@ -44,11 +50,11 @@ public class Tema {
         this.id = id;
     }
 
-//    public List<Postagem> getPostagens() {
-//        return postagens;
-//    }
-//
-//    public void setPostagens(List<Postagem> postagens) {
-//        this.postagens = postagens;
-//    }
+    public List<Postagem> getPostagens() {
+        return postagens;
+    }
+
+    public void setPostagens(List<Postagem> postagens) {
+        this.postagens = postagens;
+    }
 }

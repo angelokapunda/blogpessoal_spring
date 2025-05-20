@@ -2,6 +2,7 @@ package com.generation.blogpessoal.controller;
 
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
+import com.generation.blogpessoal.repository.TemaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,9 @@ public class PostagemController {
     @Autowired
     private PostagemRepository postagemRepository;
 
+    @Autowired
+    private TemaRepository temaRepository;
+
     @GetMapping
     public ResponseEntity<List<Postagem>> getAll() {
         return ResponseEntity.ok().body(postagemRepository.findAll());
@@ -49,8 +53,11 @@ public class PostagemController {
 
     @PostMapping
     public ResponseEntity<Postagem> post (@Valid @RequestBody Postagem postagem) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(postagemRepository.save(postagem));
+        if (temaRepository.existsById(postagem.getTema().getId())) {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(postagemRepository.save(postagem));
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Tema não existe!");
     }
 
     @PutMapping
@@ -58,7 +65,7 @@ public class PostagemController {
         if (postagem.getId() == null) {
             ResponseEntity.badRequest().build();
         }
-        if (postagemRepository.existsById(postagem.getId())) {
+        if (postagemRepository.existsById(postagem.getId()) && temaRepository.existsById(postagem.getTema().getId())) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(postagemRepository.save(postagem));
         }
