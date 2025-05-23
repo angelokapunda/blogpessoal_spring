@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -37,16 +38,16 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> atualizarUsuario(Usuario usuario) {
-//        Optional<Usuario> emailExistente = usuarioRepository.findByUsuario(usuario.getUsuario());
-//        if () {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Usuário já existe");
-//        }
-//
-        if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent()) {
+
+        if (usuarioRepository.findById(usuario.getId()).isPresent()) {
+            Optional<Usuario> usuarioExistente = usuarioRepository.findByUsuario(usuario.getUsuario());
+            if (usuarioExistente.isPresent() && !Objects.equals(usuarioExistente.get().getId(), usuario.getId())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O Usuário já existe!");
+            }
             usuario.setSenha(criptografarSenha(usuario.getSenha()));
             return Optional.ofNullable(usuarioRepository.save(usuario));
         }
-        return  Optional.empty();
+        return Optional.empty();
     }
 
     public Optional<UsuarioLogin> autenticarUsuario(Optional<UsuarioLogin> usuarioLogin) {
@@ -56,7 +57,7 @@ public class UsuarioService {
         Authentication authentication = authenticationManager.authenticate(credenciais);
         if (authentication.isAuthenticated()) {
             Optional<Usuario> usuario = usuarioRepository.findByUsuario(usuarioLogin.get().getUsuario());
-            if (usuario.isPresent()){
+            if (usuario.isPresent()) {
                 usuarioLogin.get().setId(usuario.get().getId());
                 usuarioLogin.get().setNome(usuario.get().getNome());
                 usuarioLogin.get().setFoto(usuario.get().getFoto());
