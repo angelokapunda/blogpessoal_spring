@@ -26,15 +26,11 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
     @PostMapping("/cadastrar")
     public ResponseEntity<Usuario> cadastrar (@Valid @RequestBody Usuario usuario) {
         return usuarioService.cadastrarUsuario(usuario)
                 .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-
     }
 
     @PutMapping("/atualizar")
@@ -49,7 +45,6 @@ public class UsuarioController {
         return usuarioService.autenticarUsuario(usuarioLogin)
                 .map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
-
     }
 
     @GetMapping
@@ -59,7 +54,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getId (@PathVariable Long id) {
-        return usuarioRepository.findById(id).map(ResponseEntity::ok)
+        return usuarioService.getById(id).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 

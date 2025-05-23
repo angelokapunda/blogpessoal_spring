@@ -71,11 +71,10 @@ public class UsuarioService {
     public List<Usuario> getAll() {
         return usuarioRepository.findAll();
     }
-//    public Usuario getById(Long id) {
-//        return usuarioRepository.findById(id)
-//                .map(resposta -> ResponseEntity.ok().body(resposta))
-//                .orElse(ResponseEntity.notFound().build());
-//    }
+
+    public Optional<Usuario> getById(Long id) {
+        return usuarioRepository.findById(id);
+    }
 
     private String gerarToken(String usuario) {
         return "Bearer " + jwtService.generateToken(usuario);
