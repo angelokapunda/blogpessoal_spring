@@ -44,7 +44,7 @@ public class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("Deve Cadastrar um novo usuário com sucesso!")
+    @DisplayName("01 - Deve Cadastrar um novo usuário com sucesso!")
     public void DeveCadastrarNovoUsuario() {
         // Given
         Usuario usuario = TestBuilder.criarUsuario(null,"Renata","renata@gmail.com.br", "renata123" );
@@ -62,7 +62,7 @@ public class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName(" Não Deve Permitir a duplicação do Usuário")
+    @DisplayName("02 -  Não Deve Permitir a duplicação do Usuário")
     public void NaoDevePermitirDuplicacaoUsuario() {
 
         Usuario usuario = TestBuilder.criarUsuario(null,"Angelo dos Santos","angelo@gmail.com.br", "angelo123");
@@ -78,7 +78,7 @@ public class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("Deve atualizar os dados de um usuário com sucesso!")
+    @DisplayName("03 - Deve atualizar os dados de um usuário com sucesso!")
     public void DeveAtualizarUmUsuario() {
         // Given
         Usuario usuario = TestBuilder.criarUsuario(null,"Geovanna","geovanna@gmail.com.br", "geovanna123" );
@@ -98,7 +98,7 @@ public class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("Deve listar todos os usuário com sucesso!")
+    @DisplayName("04 - Deve listar todos os usuário com sucesso!")
     public void DeveListarTodosUsuario() {
         // Given
         usuarioService.cadastrarUsuario(TestBuilder.criarUsuario(null,"Tatiana","tatiana@gmail.com.br", "tatiana123" ));
@@ -116,7 +116,7 @@ public class UsuarioControllerTest {
 
 
     @Test
-    @DisplayName("Deve Buscar um usuário por Id com sucesso!")
+    @DisplayName("05 - Deve Buscar um usuário por Id com sucesso!")
     public void DeveBuscarUsuarioPorId() {
         // Given
         usuarioService.cadastrarUsuario(TestBuilder.criarUsuario(null,"Tatiana","tatiana@gmail.com.br", "tatiana123" ));
@@ -133,7 +133,7 @@ public class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("✔ 05 - Deve listar um usuário específico - pelo id")
+    @DisplayName("06 - Deve listar um usuário específico - pelo id")
     public void deveListarUmUsuarioPorId() {
 
         //Given
@@ -151,7 +151,7 @@ public class UsuarioControllerTest {
     }
 
     @Test
-    @DisplayName("✔ 06 - Deve Autenticar um usuário com sucesso")
+    @DisplayName("07 - Deve Autenticar um usuário com sucesso")
     public void deveAutenticarUsuario() {
 
         //Given
