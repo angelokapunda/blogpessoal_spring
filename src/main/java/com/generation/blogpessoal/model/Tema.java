@@ -29,9 +29,10 @@ public class Tema {
     @Pattern(regexp = "^[^0-9].*", message = "A Descrição é obrigatória")
     private String descricao;
 
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tema", cascade = CascadeType.REMOVE)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JsonIgnoreProperties("tema")
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tema", cascade = CascadeType.REMOVE)
     private List<Postagem> postagens;
 
     public String getDescricao() {
