@@ -1,5 +1,6 @@
 package com.generation.blogpessoal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
@@ -40,7 +41,8 @@ public class Usuario {
     @Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
     private String foto;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("usuario")
     private List<Postagem> postagens;
 
